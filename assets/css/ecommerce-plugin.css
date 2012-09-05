@@ -1,0 +1,18 @@
+.apptivo_ecommerce_options_panel,.panel{color:#555;}
+.apptivo_ecommerce_options_panel,.panel{padding:0;}
+.apptivo_ecommerce_options_panel p{overflow:hidden;zoom:1;margin:0 0 9px;font-size:12px;line-height:24px;}
+.apptivo_ecommerce_options_panel label{float:left;width:150px;padding:0;}
+.apptivo_ecommerce_options_panel label .req{font-weight:bold;font-style:normal;color:red;}
+.apptivo_ecommerce_options_panel .description{padding:0;margin:0 0 0 7px;}
+.apptivo_ecommerce_options_panel .description-block{margin-left:0;display:block;}
+.apptivo_ecommerce_options_panel input{width:50%;float:left;}
+.apptivo_ecommerce_options_panel .checkbox{vertical-align:middle;margin:7px 0;width:auto;}
+.apptivo_ecommerce_options_panel select{float:left;}
+.apptivo_ecommerce_options_panel .short{width:20%;}
+.apptivo_ecommerce_options_panel .sized{width:auto !important;margin-right:6px;}
+.column-thumb img { width:45px;height:45px;}
+table.plugins tr#apptivo-ecommerce td.plugin-title,table.plugins tr#apptivo-ecommerce-addons td.plugin-title,table.plugins tr#apptivo-business-site-plugin td.plugin-title { background: url("../images/apptivo-icon.png") no-repeat scroll 0 4px transparent; padding-left: 36px;}
+#item_catdiv h3 span ,#apptivo_ecommerce-item-data h3 span {background: url("../images/icons/apptivo.png") no-repeat scroll 8px center transparent;display: inline-block;margin: 0;padding: 2px 2px 2px 34px; }
+.icon32-posts-item{ background: url("../images/products.jpeg") repeat scroll 0 0 transparent !important;}
+#wp-apptivo_ecommerce_print_receipt_address-editor-container .wp-editor-area{height:200px; width:100%;}
+span.mce_apptivo-ecommerce_shortcodes_button {background-image: url("../images/icons/apptivo.png") !important;background-position: center center !important;background-repeat: no-repeat !important;}
