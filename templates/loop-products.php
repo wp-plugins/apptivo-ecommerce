@@ -16,11 +16,11 @@ if( $count_posts < 1 )
 	return;
 }
 
-//$cat_slug = $_GET['item_cat'];
-//$cat_slug = $term;
+$cat_slug = $term;
+
 $term = get_term_by('slug', $cat_slug, 'item_cat');
+
 $categoryID = get_post_meta($term->term_id, '_apptivo_category_id',$single = true);
-	
 	 if( $_GET['page'] == '' || $_GET['page'] < 1 )
 	   {
 	   	 $pageNo = 1;

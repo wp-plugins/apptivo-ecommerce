@@ -40,7 +40,7 @@ $apptivo_ecommerce_loop['pagination_type'] =  get_option('apptivo_ecommerce_prod
 	    $args['tax_query'] = array(
 				    array(
 				        'taxonomy' => 'item_tag',
-				        'terms' => array($term->term_taxonomy_id),
+				        'terms' => array($term->term_id),
 				        'field' => 'id'
 				    ));
 		

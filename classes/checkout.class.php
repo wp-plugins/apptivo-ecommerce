@@ -83,7 +83,6 @@ class apptivo_ecommerce_checkout {
 				),
 			'billing_phone' 	=> array( 
 				'label' 		=> __('Phone', 'apptivo_ecommerce'), 
-				'required' 		=> true, 
 				'class' 		=> array('form-row-last') 
 				)
 		));
@@ -106,7 +105,6 @@ class apptivo_ecommerce_checkout {
 				),
 			'register_phone' 	=> array( 
 				'label' 		=> __('Phone', 'apptivo_ecommerce'),  
-				'required' 		=> true, 
 				'class' 		=> array('form-row-last') 
 				),				
 			'billing_address' 	=> array( 
@@ -224,7 +222,6 @@ class apptivo_ecommerce_checkout {
 				),
 			'shipping_phone' 	=> array( 
 				'label' 		=> __('Phone', 'apptivo_ecommerce'), 
-				'required' 		=> true, 
 				'class' 		=> array('form-row-last') 
 				)
 		));
@@ -520,7 +517,9 @@ class apptivo_ecommerce_checkout {
 						{
 							$apptivo_ecommerce->add_error( $field['label'] . __('  is a required field.', 'apptivo_ecommerce'),$key );
 						}else {
-						if (!$validation->is_phone( $this->posted[$key] )) : $apptivo_ecommerce->add_error( $field['label'] . __('  is not a valid number.', 'apptivo_ecommerce'),$key ); endif;
+						if( $field['required'] ) {	
+						 if (!$validation->is_phone( $this->posted[$key] )) : $apptivo_ecommerce->add_error( $field['label'] . __('  is not a valid number.', 'apptivo_ecommerce'),$key ); endif;
+						}
 						}
 					break;
 					
@@ -556,7 +555,9 @@ class apptivo_ecommerce_checkout {
 						{
 							$apptivo_ecommerce->add_error( $field['label'] . __('  (shipping) is a required field.', 'apptivo_ecommerce'),$key );
 						}else {
+						if( $field['required'] ) {
 						if (!$validation->is_phone( $this->posted[$key] )) : $apptivo_ecommerce->add_error( $field['label'] . __(' (shipping) is not a valid number.', 'apptivo_ecommerce'),$key ); endif;
+						}
 						}
 					break;
 					case "shipping_email" :
@@ -969,7 +970,9 @@ function process_confirm_checkout()
 						{
 							$apptivo_ecommerce->add_error( $field['label'] . __(' (billing) is a required field.', 'apptivo_ecommerce'),$key );
 						}else {
+						if( $field['required'] ) {		
 						if (!$validation->is_phone( $this->posted[$key] )) : $apptivo_ecommerce->add_error( $field['label'] . __(' (billing) is not a valid number.', 'apptivo_ecommerce'),$key ); endif;
+						}
 						}
 					break;
 					case "billing_email" :
@@ -1010,7 +1013,9 @@ function process_confirm_checkout()
 						{
 							$apptivo_ecommerce->add_error( $field['label'] . __(' (shipping) is a required field.', 'apptivo_ecommerce'),$key );
 						}else {
+						if( $field['required'] ) {		
 						if (!$validation->is_phone( $this->posted[$key] )) : $apptivo_ecommerce->add_error( $field['label'] . __(' (shipping) is not a valid number.', 'apptivo_ecommerce'),$key ); endif;
+						}
 						}
 					break;
 					case "shipping_email" :

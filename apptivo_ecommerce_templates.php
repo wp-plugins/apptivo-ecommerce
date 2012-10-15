@@ -50,7 +50,7 @@ function apptivo_ecommerce_template_loader( $template ) {
 	elseif ( is_tax('item_tag') ) {
 			    
 		$template = locate_template(  array( 'taxonomy-item_tag.php', APPTIVO_ECOMMERCE_TEMPLATE_URL . 'taxonomy-item_tag.php' ) );
-		if ( ! $template ) $template = $apptivo_ecommerce->plugin_path() . '/templates/tanomomy-item_tag.php';
+		if ( ! $template ) $template = $apptivo_ecommerce->plugin_path() . '/templates/taxonomy-item_tag.php';
 		
 	}elseif ( is_post_type_archive('item') ||  is_page( get_option('apptivo_ecommerce_products_page_id') )) {
 				

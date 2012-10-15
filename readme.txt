@@ -2,8 +2,8 @@
 Contributors: apptivo, rmohanasundaram
 Tags: apptivo, ecommerce, e-commerce, integration, paypal, registration
 Requires at least: 3.0
-Tested up to: 3.4.1
-Stable tag: 1.0
+Tested up to: 3.4.2
+Stable tag: 1.0.1
 
 Create, display, and collect payment for your products online.  A complete eCommerce solution integrated with Apptivo.
 
@@ -53,6 +53,12 @@ You can find the complete developer's guide here: http://www.apptivo.com/ecommer
 
 
 == Changelog ==
+
+= 1.0.1 =
+* Removed Phone validation in account signup and checkout.
+* Added web method 'addItems' in CART service.( To add multiple items into shopping cart )
+* Fixes - Products displaying by category.
+* Added tags-product file into theme ( Copy to theme ).
 
 = 1.0 =
 * Plugin released!

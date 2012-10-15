@@ -42,7 +42,8 @@ if( strtolower(trim($apptivo_ecommerce_loop['pagination_type'])) == '2' || strto
 			<!--  Add to cart and More details button -->
 			<?php
 			apptivo_ecommerce_viewdetails_addtocart_btn($post_id,$sale_price);
-			?>					
+			?>
+			</li>
 			<?php 
 		
 	endwhile; endif;

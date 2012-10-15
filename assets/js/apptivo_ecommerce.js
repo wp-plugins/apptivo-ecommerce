@@ -203,6 +203,54 @@ jQuery(document).ready(function($) {
          }
 	 }
 
+	$( "input[name='shippingcosts']" ).bind( "click", radioClicksCustom );
+	
+	$( "#apptivo_item_qty" ).bind( "change", seelctChangeCustom );
+
+	
+	function seelctChangeCustom()
+	 {
+		 var shipping_productID =  $('#ship_prod_id').val();
+		 var qty =  $('#apptivo_item_qty').val();
+		 var productID =  $('#apptivo_item_qty').attr("rel");
+		
+		
+		 var data = {
+					action: 			'apptivo_ecommerce_update_price',
+					shipping_productID: 	shipping_productID,
+					qty:qty,
+					productID:productID
+				};
+				$.post( apptivo_ecommerce_params.ajax_url, data, function(response) {
+					$('#up_total_proce').html(response);
+					
+				});
+				
+	 }
+	
+    function radioClicksCustom()
+	 {
+		 var shipping_productID =  $( this ).val();
+		 $('#ship_prod_id').val(shipping_productID);
+		 var qty =  $('#apptivo_item_qty').val();
+		 var productID =  $('#apptivo_item_qty').attr("rel");
+		
+		
+		 var data = {
+					action: 			'apptivo_ecommerce_update_price',
+					shipping_productID: 	shipping_productID,
+					qty:qty,
+					productID:productID
+				};
+				$.post( apptivo_ecommerce_params.ajax_url, data, function(response) {
+					$('#up_total_proce').html(response);
+					
+				});
+				
+	 }
+	
+	
+    
 	if($('#register_login').length)
 	{ 
 		if ($('#ecommerce_error_field').length)

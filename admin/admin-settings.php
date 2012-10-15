@@ -68,6 +68,7 @@ function apptivo_ecommerce_upload_theme_template()
 	$eCommerce_taxonomy_tag_file = APPTIVO_ECOMMERCE_PLUGIN_BASEPATH.'/templates/taxonomy-item_tag.php';
 	$eCommerce_single_file = APPTIVO_ECOMMERCE_PLUGIN_BASEPATH.'/templates/single-product.php';	
 	$eCommerce_products_file = APPTIVO_ECOMMERCE_PLUGIN_BASEPATH.'/templates/loop-products.php';
+	$eCommerce_tags_file = APPTIVO_ECOMMERCE_PLUGIN_BASEPATH.'/templates/tags-products.php';
 	
 	if(is_dir(TEMPLATEPATH.'/apptivo-ecommerce')){
 		$folder_name = TEMPLATEPATH.'/apptivo-ecommerce-'.strtotime("now");
@@ -82,6 +83,7 @@ function apptivo_ecommerce_upload_theme_template()
 	copy( $eCommerce_taxonomy_tag_file, $destination.'/taxonomy-item_tag.php');
 	copy( $eCommerce_single_file, $destination.'/single-product.php');
 	copy( $eCommerce_products_file, $destination.'/loop-products.php');
+	copy( $eCommerce_tags_file, $destination.'/tags-products.php');
 		
 	
 	//Copied Images
@@ -162,7 +164,7 @@ $apptivo_ecommerce_settings['apptivo_ecommerce'] = array(
 		'std' 		=> 'no',
 		'type' 		=> 'checkbox'
 	),
-	
+		
 	array( 'type' => 'sectionend', 'id' => 'general_options'),
 	
 	array( 'name' => __( 'reCaptcha in Register Page', 'apptivo_ecommerce' ), 'type' => 'title', 'desc' => '', 'id' => 'recaptcha_options' ),
@@ -791,23 +793,7 @@ if(!function_exists('apptivo_ecommerce_syncs')){
 						if( $categoryID != '')
 						{						
 							$product_catid = getIdFromMeta( '_apptivo_category_id', $categoryID );
-							/*if($product_catid == '') // Category Creation in Wordpress.
-							{
-								$category_name = $item_Categories->categoryName;
-								$category_description = $item_Categories->description;
-								
-								$arg = array('description' => $category_description, 'parent' => "");
-								$product_catid = apptivo_wp_insert_term($category_name, "item_cat", $arg);
-								$term_id = $product_catid['term_id'];
-								if($term_id != '')
-								{
-		                        update_post_meta( $term_id, '_apptivo_category_id', $categoryID );
-		                        $item_categoryID[] = $term_id;
-								}
-		                        
-							}else{
-	    						$item_categoryID[] = $product_catid;
-	    					}*/
+							
                             if($product_catid != '') {
 	    					$item_categoryID[] = $product_catid; }
 						}

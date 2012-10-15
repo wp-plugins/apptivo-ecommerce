@@ -664,11 +664,70 @@ function singleitem_addtocart($item_id,$item_uomid,$item_qty,$item_price,$itemco
     
     if( $add_ons == 'Error')
     {
-    	 global $apptivo_ecommerce;
+      global $apptivo_ecommerce;
 	  $apptivo_ecommerce->add_error( __('You cannot add this product to the Shopping Cart.Please select other item.', 'apptivo-ecommerce') );
 	  return false; // Failed in add items in cart.
     }
     $response = ecommerce_soap_call(CART_WSDL,'addItems',$params);
+    $cart_sessionId = $response->return->sessionId;
+     //Shopping cart informations are maintained in session.
+   	 if($cart_sessionId != '') {
+	   $_SESSION['apptivo_cart_sessionId'] = $cart_sessionId;
+	   $_SESSION['apptivo_cart_baginfo']   = $response;
+   	 }
+	  
+      if( $response->return->methodResponse->responseStatus == 1 && !empty($response->return->shoppingCartLines) ) {
+	  return true; // Shopping cart item has been added successfully. [responseCode] => CS-001	  
+      } else{
+	  global $apptivo_ecommerce;
+	  $apptivo_ecommerce->add_error( __('You cannot add that product to the Shopping Cart.Please try again later.', 'apptivo-ecommerce') );
+	  return false; // Failed in add items in cart.
+      }	
+}
+
+/**
+ * Add items to cart
+ *
+ * @param unknown_type $item_ids
+ * @param unknown_type $item_qtys
+ * @param unknown_type $p_id
+ * @return unknown
+ */
+function additems_cart($sessionId,$item_ids,$item_qtys,$p_id='')
+{
+ 	$userId = NULL;
+	$clientIPAddress = stripslashes(get_ClientIpAddr());
+	$promotionCodes = NULL;
+	$shippingOption = NULL;
+
+	$shoppingCartLines = array ();
+	for($i = 0; $i < count ( $item_ids ); $i ++) {
+		
+		$item_id = get_post_meta($item_ids[$i],'_apptivo_item_id',true);		
+		$item_uomid = get_post_meta($item_ids[$i],'_apptivo_item_uom_id',true);
+		$item_price = get_post_meta($item_ids[$i],'_apptivo_sale_price',true);
+		$item_qty = $item_qtys[$i];
+		$shoppingCartLines[$i] = array('itemId'=>$item_id,'unitPrice'=>$item_price,'uomId'=>$item_uomid,'quantity'=>$item_qty,'lineTypeCode'=>'CART');
+	}
+	
+    
+	$shoppingCart = array('sessionId'=>$sessionId, 'promotionCode'=>$promotionCodes, 'shoppingCartLines'=>$shoppingCartLines, 'shippingOption'=>$shippingOption);
+		                                   
+    $params = array("arg0"=>APPTIVO_ECOMMERCE_API_KEY,"arg1"=>APPTIVO_ECOMMERCE_ACCESSKEY,"arg2"=>$sessionId,"arg3"=>$shoppingCart,
+                    "arg4"=>$clientIPAddress,"arg5"=>'N',"arg6"=>$userId );
+    
+   
+    $add_ons = apply_filters('apptivo_ecommerce_add_ons_single_addcart',$p_id);
+    
+    if( $add_ons == 'Error')
+    {
+      global $apptivo_ecommerce;
+	  $apptivo_ecommerce->add_error( __('You cannot add this product to the Shopping Cart.Please select other item.', 'apptivo-ecommerce') );
+	  return false; // Failed in add items in cart.
+    }
+    
+    $response = ecommerce_soap_call(CART_WSDL,'addItems',$params);
+    
     $cart_sessionId = $response->return->sessionId;
      //Shopping cart informations are maintained in session.
    	 if($cart_sessionId != '') {

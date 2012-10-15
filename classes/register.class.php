@@ -65,7 +65,6 @@ class apptivo_ecommerce_register
 				),
 			'register_phone' 	=> array( 
 				'label' 		=> __('Phone', 'apptivo_ecommerce'), 
-				'required' 		=> true, 
 				'class' 		=> array('form-row-last') 
 				),
 			'account_username'=> array( 
@@ -241,7 +240,9 @@ function process_registerform() {
 						{
 							$apptivo_ecommerce->add_error( $field['label'] . __('  is a required field.', 'apptivo_ecommerce'),$key );
 						}else {
+						if( $field['required'] ) {	
 						if (!$validation->is_phone( $this->posted[$key] )) : $apptivo_ecommerce->add_error( $field['label'] . __('  is not a valid number.', 'apptivo_ecommerce'),$key ); endif;
+						}
 						}
 					break;
 					
