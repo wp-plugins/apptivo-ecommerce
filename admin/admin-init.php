@@ -71,6 +71,17 @@ function apptivo_ecommerce_admin_scripts() {
 		wp_enqueue_script( 'thickbox' );		
 		
 	endif;
+	
+	/* shortcode in editor */
+	if (in_array( $screen->id, array( 'post','page' ))) {
+				
+	if ( get_user_option('rich_editing') == 'true' && ( current_user_can('edit_posts') && current_user_can('edit_pages') ) ) :
+		add_filter('mce_buttons', 'apptivo_ecommerce_add_shortcode_tinymce_plugin');		
+		add_filter('mce_external_plugins', 'apptivo_ecommerce_register_shortcode_button');
+	endif;
+	
+	 }
+	
 }
 add_action('admin_enqueue_scripts', 'apptivo_ecommerce_admin_scripts');
 

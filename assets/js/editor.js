@@ -17,7 +17,7 @@
 							var a=this;d.onRenderMenu.add(function(c,b){
 								
 										a.addImmediate(b,"Cart","[apptivo_ecommerce_cart]" );
-										a.addImmediate(b,"Authorize.Net Chcekout",'[apptivo_ecommerce_secure_checkout]');
+										a.addImmediate(b,"Authorize.Net Checkout",'[apptivo_ecommerce_secure_checkout]');
 										a.addImmediate(b,"Paypal/Google Checkout","[apptivo_ecommerce_checkout]" );
 										a.addImmediate(b,"Register",'[apptivo_ecommerce_register]');
 										a.addImmediate(b,"Login",'[apptivo_ecommerce_login]');
@@ -25,10 +25,10 @@
 										a.addImmediate(b,"My Account",'[apptivo_ecommerce_my_account]');
 										a.addImmediate(b,"Thanks",'[apptivo_ecommerce_thankyou]');
 										b.addSeparator();
-										a.addImmediate(b,"Recent Products",'[apptivo_ecommerce_recent_products orderby="" order="" per_page="8" columns="4" pagination_type="bottom"]');
+										a.addImmediate(b,"Recent Products",'[apptivo_ecommerce_recent_products featured="" orderby="" order="" per_page="8" columns="4" pagination_type="bottom"]');
 										a.addImmediate(b,"Feautured Products",'[apptivo_ecommerce_featured_products orderby="" order=""  per_page="8" columns="4" pagination_type="bottom"]');
-										a.addImmediate(b,"Products by category ID",'[apptivo_ecommerce_products_by_category orderby="" order=""  category_id="" per_page="8" columns="4" pagination_type="bottom"]');
-										a.addImmediate(b,"Products by price",'[apptivo_ecommerce_products_by_price min="" max="" orderby="" order="" per_page="8" columns="4" pagination_type="bottom"]');
+										a.addImmediate(b,"Products by category ID",'[apptivo_ecommerce_products_by_category category_id="" featured="" orderby="" order="" per_page="8" columns="4" pagination_type="bottom"]');
+										a.addImmediate(b,"Products by price",'[apptivo_ecommerce_products_by_price min="" max="" featured="" orderby="" order="" per_page="8" columns="4" pagination_type="bottom"]');
 										
 
 							});
@@ -69,7 +69,7 @@
 									
 									c=b.addMenu({title:"eCommerce"});
 									a.addImmediate(c,"Cart","[apptivo_ecommerce_cart]" );
-									a.addImmediate(c,"Authorize.Net Chcekout",'[apptivo_ecommerce_secure_checkout]');
+									a.addImmediate(c,"Authorize.Net Checkout",'[apptivo_ecommerce_secure_checkout]');
 									a.addImmediate(c,"Paypal/Google Checkout","[apptivo_ecommerce_checkout]" );
 									a.addImmediate(c,"Register",'[apptivo_ecommerce_register]');
 									a.addImmediate(c,"Login",'[apptivo_ecommerce_login]');
@@ -77,10 +77,10 @@
 									a.addImmediate(c,"My Account",'[apptivo_ecommerce_my_account]');
 									a.addImmediate(c,"Thanks",'[apptivo_ecommerce_thankyou]');
 									c.addSeparator();
-									a.addImmediate(c,"Recent Products",'[apptivo_ecommerce_recent_products orderby="" order="" per_page="8" columns="4" pagination_type="bottom"]');
+									a.addImmediate(c,"Recent Products",'[apptivo_ecommerce_recent_products featured="" orderby="" order="" per_page="8" columns="4" pagination_type="bottom"]');
 									a.addImmediate(c,"Feautured Products",'[apptivo_ecommerce_featured_products orderby="" order=""  per_page="8" columns="4" pagination_type="bottom"]');
-									a.addImmediate(c,"Products by category ID",'[apptivo_ecommerce_products_by_category orderby="" order=""  category_id="" per_page="8" columns="4" pagination_type="bottom"]');
-									a.addImmediate(c,"Products by price",'[apptivo_ecommerce_products_by_price min="" max="" orderby="" order="" per_page="8" columns="4" pagination_type="bottom"]');
+									a.addImmediate(c,"Products by category ID",'[apptivo_ecommerce_products_by_category category_id="" featured="" orderby="" order=""  per_page="8" columns="4" pagination_type="bottom"]');
+									a.addImmediate(c,"Products by price",'[apptivo_ecommerce_products_by_price min="" max="" featured="" orderby="" order="" per_page="8" columns="4" pagination_type="bottom"]');
 									
 									b.addSeparator();
 									

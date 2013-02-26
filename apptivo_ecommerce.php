@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Apptivo eCommerce
-Plugin URI: https://www.apptivo.com
+Plugin URI: http://www.apptivo.com
 Description: Turn your Wordpress blog into a complete integrated eCommerce solution.  Easily add products, integrate your payment gateway, and start collecting orders.  Get started by signing up for an Apptivo account to get your API key!
-Version: 1.0.1
+Version: 1.1
 Author: Rajkumar Mohanasundaram
-Author URI: https://www.apptivo.com
+Author URI: http://www.apptivo.com
 Requires at least: 3.1
 */
 if (!session_id()) session_start();
@@ -13,7 +13,7 @@ if (!session_id()) session_start();
  * Constants
  **/ 
 if (!defined('APPTIVO_ECOMMERCE_TEMPLATE_URL')) define('APPTIVO_ECOMMERCE_TEMPLATE_URL', 'apptivo-ecommerce/');
-if (!defined("APPTIVO_ECOMMERCE_VERSION")) define("APPTIVO_ECOMMERCE_VERSION", "1.0.1");	
+if (!defined("APPTIVO_ECOMMERCE_VERSION")) define("APPTIVO_ECOMMERCE_VERSION", "1.1");	
 if (!defined("PHP_EOL")) define("PHP_EOL", "\r\n");
 if (!defined('APPTIVO_ECOMMERCE_PLUGIN_BASEURL')) define('APPTIVO_ECOMMERCE_PLUGIN_BASEURL',plugins_url(basename( dirname(__FILE__))));
 if (!defined('APPTIVO_ECOMMERCE_PLUGIN_BASEPATH')) define('APPTIVO_ECOMMERCE_PLUGIN_BASEPATH',dirname(__FILE__));
@@ -305,26 +305,15 @@ function apptivo_ecommerce_clean( $var ) {
 }
 add_theme_support( 'post-thumbnails' );
 
-/* shortcode in editor */
-if( is_admin())
-{
-add_action( 'init', 'apptivo_commerce_add_shortcode_button' );
-}
-
-function apptivo_commerce_add_shortcode_button() {
-	if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') ) return;
-	if ( get_user_option('rich_editing') == 'true') :
-		add_filter('mce_buttons', 'apptivo_ecommerce_add_shortcode_tinymce_plugin');
-		add_filter('mce_external_plugins', 'apptivo_ecommerce_register_shortcode_button');
-	endif;
-}
 
 function apptivo_ecommerce_add_shortcode_tinymce_plugin($buttons) {
 	array_push($buttons, "|", "apptivo-ecommerce_shortcodes_button");
 	return $buttons;
 }
 
+/* shortcode in editor */
 function apptivo_ecommerce_register_shortcode_button($plugin_array) {
+	
 	if( isset( $plugin_array['ApptivoBusinesssiteShortcodes']) ) //Combined eCommerce and Business shortcodes
 	{
 		unset($plugin_array['ApptivoBusinesssiteShortcodes']);
@@ -332,7 +321,9 @@ function apptivo_ecommerce_register_shortcode_button($plugin_array) {
 	}else {                                                     //eCommerce Shortcodes
 	    $plugin_array['ApptivoecommerceShortcodes'] = APPTIVO_ECOMMERCE_PLUGIN_BASEURL . '/assets/js/editor.js';
 	}
+	;
 	return $plugin_array;
+	
 }
 
 function apptivo_ecommerce_itemname($title)

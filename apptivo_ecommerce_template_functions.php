@@ -473,7 +473,7 @@ if (!function_exists('apptivo_ecommerce_cart_totals')) {
 						<td><?php echo apptivo_ecommerce_price($cartInfo->shippingAmount); ?></td>
 					</tr>
 					<?php endif;?>
-					<?php if(get_option('apptivo_ecommerce_auto_zipcode_calculation') == 'no') : ?>
+					
 					<!--  Shipping Methods. -->
 					<?php if ( sizeof($available_methods)>0 ) : ?>
 					<tr id="cart_shipping_options" >
@@ -489,7 +489,7 @@ if (!function_exists('apptivo_ecommerce_cart_totals')) {
 							?>
 						</td>
 					</tr>
-					<?php endif; ?>
+					
 					<?php endif; ?>
 					<!-- Discount Amount -->
 					<?php if ($cartInfo->totalDiscountAmount != '' && $cartInfo->totalDiscountAmount > 0) : ?><tr class="discount">
@@ -662,11 +662,10 @@ if (!function_exists('apptivo_ecommerce_breadcrumb_content')) {
 			
 	 			$_name = get_option('apptivo_ecommerce_products_page_id') ? get_the_title( get_option('apptivo_ecommerce_products_page_id') ) : ucwords(get_option('apptivo_ecommerce_products_slug'));
 	 		
-	 			if (is_search()) :	 				
+	 			if (is_search()) :				
 	 				echo $before . '<a href="' . get_post_type_archive_link('item') . '">' . $_name . '</a>' . $delimiter . __('Search results for &ldquo;', 'apptivo-ecommerce') . get_search_query() . '&rdquo;' . $after;
 	 			
-	 			else :
-	 			
+	 			else :	 			
 	 				echo $before .  $_name . $after;
 	 			
 	 			endif;

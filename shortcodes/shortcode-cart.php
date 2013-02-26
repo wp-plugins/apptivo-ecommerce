@@ -17,6 +17,7 @@ function apptivo_ecommerce_cart() {
 	global $apptivo_ecommerce;
 	$validation = &new apptivo_ecommerce_validation();
 	$getcartDetails = getCartDetails(); //To get Shopping cart details.
+	
 	//shoppingCartLines
 	$shooping_cart = get_shoppingcrt_baginfo();
 	$shoppingCart_Lines =$shooping_cart->return;	
@@ -58,17 +59,14 @@ function apptivo_ecommerce_cart() {
 	  }	 
 	 endif;
 	 
-	 if ( $apptivo_ecommerce->error_count() == 0 ) :	 
-	 //Shipping tax caclutae based on zipcode.
-	 $zipcode_disp_status = get_option('apptivo_ecommerce_auto_zipcode_calculation');
-	 if($zipcode_disp_status == 'yes') :
-	 	$auto_zipcode =  get_option('apptivo_ecommerce_auto_zipcode');
-	 else:
-	    $auto_zipcode = NULL;
-	 endif;
+	 
+	 if ( $apptivo_ecommerce->error_count() == 0 ) :
+	
+	 
 	 if( !isset($_SESSION['apptivo_checkout_shipping_type'])) :
 	 	$_SESSION['apptivo_checkout_shipping_type'] = 'YES';
 	 endif;
+	 
 	if(!empty($_POST) && $action ):
 	
 	
@@ -80,49 +78,57 @@ function apptivo_ecommerce_cart() {
 		 $_SESSION['apptivo_checkout_shipping_type'] = 'NO';
 		endif;
 		
-	 if(isset($_POST['apply_zipcode']) || ( trim($_POST['shop_cart_actions']) == 'APPLY_ZIPCODE' )):
+		
+	 if(isset($_POST['apply_zipcode']) || ( trim($_POST['shop_cart_actions']) == 'APPLY_ZIPCODE' )) {
+	 
 			$_SESSION['chosen_shippingandtax_zipcode'] = trim($_POST['zip_code']);
 			$item_qtys = $_POST['cart_item_qty'];
 			$item_color = $_POST['cart_track_color'];
-		    $item_size = $_POST['cart_track_size'];			
-			$shooping_cart = update_shopping_cart($shoppingCartLines,$item_qtys,$coupon_code,$zipcode_disp_status,trim($_POST['zip_code']),'yes',$shipping_method,$item_color,$item_size);
-			$shoppingCartLines = app_convertObjectToArray($shooping_cart->return->shoppingCartLines);					
-		else:		    
+		    $item_size = $_POST['cart_track_size'];		
+		    $shooping_cart = update_shopping_cart($shoppingCartLines,$item_qtys,$coupon_code,'yes',trim($_POST['zip_code']),'yes',$shipping_method,$item_color,$item_size);
+			$shoppingCartLines = app_convertObjectToArray($shooping_cart->return->shoppingCartLines);	
+							
+	 }else {
+				    
 		    $item_qtys = $_POST['cart_item_qty'];
 		    $item_color = $_POST['cart_track_color'];
 		    $item_size = $_POST['cart_track_size'];
-			$shooping_cart = update_shopping_cart($shoppingCartLines,$item_qtys,$coupon_code,$zipcode_disp_status,$auto_zipcode,'yes',$shipping_method,$item_color,$item_size);
+			$shooping_cart = update_shopping_cart($shoppingCartLines,$item_qtys,$coupon_code,'yes',NULL,'yes',$shipping_method,$item_color,$item_size);
 			$shoppingCartLines = app_convertObjectToArray($shooping_cart->return->shoppingCartLines);
 
-            if($_POST['proceed_to_checkout'] == 'paypalcheckout'):
+            if($_POST['proceed_to_checkout'] == 'paypalcheckout'){
                 $_SESSION['apptivo_ecommerce_PG'] = 'paypal';
 				wp_safe_redirect( get_permalink(get_option('apptivo_ecommerce_checkout_page_id')) );
 				exit;
-		   elseif($_POST['proceed_to_checkout']  == 'securecheckout'):
+            }elseif($_POST['proceed_to_checkout']  == 'securecheckout'){
 		        $_SESSION['apptivo_ecommerce_PG'] = 'secure';
 		  	    wp_safe_redirect( get_permalink(get_option('apptivo_ecommerce_secure_checkout_page_id')) );
 				exit;
-			 elseif($_POST['proceed_to_checkout']  == 'googlecheckout'):
+            }elseif($_POST['proceed_to_checkout']  == 'googlecheckout'){
 			    $_SESSION['apptivo_ecommerce_PG'] = 'google';
 			    $page = get_permalink(get_option('apptivo_ecommerce_checkout_page_id'));
 				wp_safe_redirect($page );
 				exit;
-		    endif;
+            }
 		    
 		    
-		endif;
-	endif;
+	 }
+	 
+	endif; //if(!empty($_POST) && $action )
 	
 	//RatedShipment
 	$available_methods = app_convertObjectToArray($shoppingCart_Lines->ratedShipment);
 	
 	if($available_methods == '' || empty($available_methods[0])) {
-		if($zipcode_disp_status = 'yes' && $auto_zipcode != '') :
+		
+		if($zipcode_disp_status = 'yes' && $auto_zipcode != '') {
 			$shooping_cart = update_shopping_cart($shoppingCartLines,$item_qtys,$coupon_code,$zipcode_disp_status,$auto_zipcode,'no');
-		endif;
+		}
+		
 		$available_methods = $shooping_cart->return->ratedShipment;
 	}
-	endif;
+	
+	endif; // if ( $apptivo_ecommerce->error_count() == 0 )
 	
         //if wiill call pickup value is > 0 or Initial Update zipcode
 			if(!isset($shooping_cart->return->shippingAmount))
@@ -260,7 +266,7 @@ function apptivo_ecommerce_cart() {
 		$defaultFirmShippingMethodId = $shooping_cart->return->defaultFirmShippingMethodId;//Default Willcall Pickup ID.
 	?>
    <input type="hidden" id="wiicallpickup_enabled" name="wiicallpickup_enabled" value="<?php echo $defaultFirmShippingMethodId; ?>" />
-	    <?php if(get_option('apptivo_ecommerce_auto_zipcode_calculation') == 'no') :?>
+	   
 			<tr id="shipping_zipcode" calls="tr_shipping_options">
 				<td colspan="6" class="">
 				 <input <?php if( $_SESSION['apptivo_checkout_shipping_type'] == 'NO' ) { ?> checked="checked" <?php } ?> type="radio" id="willcallpickup" name="shippingoptions"   value="willcall" rel="<?php echo $defaultFirmShippingMethodId; ?>" /> 
@@ -269,37 +275,10 @@ function apptivo_ecommerce_cart() {
 						 <label for="shipping"><?php echo apply_filters('apptivo_ecommerce_apply_zipcode_label','Enter Zip Code to Calculate Tax and Shipping'); ?></label>
 						 <input name="zip_code" class="input-text" id="zip_code" value="" /> 
 						 <input id="apply_zipcode" type="submit" class="btn" name="apply_zipcode" value="<?php echo apply_filters('apptivo_ecommerce_apply_zipcode_submit_button','Apply Zipcode'); ?>" />						 
-			<?php else: ?>
-			  <?php if(sizeof($available_methods) == 0 ):
-			             $_SESSION['apptivo_checkout_shipping_type'] == 'NO';
-			         endif; ?>
-				<tr id="shipping_zipcode" calls="tr_shipping_methods">
-				<td colspan="6" class="">
-				 <input type="radio" <?php if( $_SESSION['apptivo_checkout_shipping_type'] == 'NO'  ) { ?> checked="checked" <?php } ?> id="willcallpickup" name="shippingoptions" value="willcall" rel="<?php echo $defaultFirmShippingMethodId; ?>" />
-				 <label for="willcallpickup">Will-Call Pick-UP</label> <br />
-				 <?php if (sizeof($available_methods) != 0) { ?>
-				 <input type="radio" <?php if( $_SESSION['apptivo_checkout_shipping_type'] != 'NO' ) { ?> checked="checked" <?php } ?>  id="shippingoption" name="shippingoptions" value="shipping" />
-				 <!--  Shipping Methods. -->					
-					<?php 
-					if( $_SESSION['apptivo_checkout_shipping_type'] == 'NO' ){ $style="style='display:none;'"; }
-					?><label for="shippingoption">Shipping</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<?php
-									echo '<span '.$style.' id="cart_shipping_options" ><select name="shipping_method" id="shipping_method">';
-									foreach ($available_methods as $method ) :
-										echo '<option value="'.$method->firmShippingMethodId.'" '.selected($method->firmShippingMethodId, $shooping_cart->return->shippingOption, false).'>'.$method->serviceName.' &ndash;'.$method->totalCharges;;
-										echo '</option>';
-									endforeach;
-									echo '</span></p>';
-							?>
-			<?php } else { ?>
-			<input type="radio" <?php if( $_SESSION['apptivo_checkout_shipping_type'] != 'NO' ) { ?> checked="checked" <?php } ?> id="shipping" name="shippingoptions" value="shipping"  />					
-						 <label for="shipping"><?php echo apply_filters('apptivo_ecommerce_apply_zipcode_label','Enter Zip Code to Calculate Tax and Shipping'); ?></label>
-						 <input name="zip_code" class="input-text" id="zip_code" value="" /> 
-						 <input id="apply_zipcode" type="submit" class="btn" name="apply_zipcode" value="<?php echo apply_filters('apptivo_ecommerce_apply_zipcode_submit_button','Apply Zipcode'); ?>" />
-			<?php } ?>
+	
 				</td>
 			</tr>
-	<?php endif; ?>	 <!-- Will call pickup & Shipping End.. -->
+	 <!-- Will call pickup & Shipping End.. -->
 	
 					<?php if(get_option('apptivo_ecommerce_apply_coupan') == 'yes') : ?>
 					<tr><td colspan="6" class="actions">

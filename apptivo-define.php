@@ -770,7 +770,7 @@ function deleteItem($cartLineid)
 /**
  * Update Shopping cart 
  */
-function update_shopping_cart($CartLines='',$item_qtys='',$promotionCodes=null,$calculateZipcode='no',$zipcode='',$updatestatus='yes',$shipping_method=null,$itemcolor='',$itemsize='')
+function update_shopping_cart($CartLines='',$item_qtys='',$promotionCodes=null,$calculateZipcode = 'yes',$zipcode='',$updatestatus='yes',$shipping_method=null,$itemcolor='',$itemsize='')
 {
 		$shippingOption = $shipping_method;//$_POST['hidden_shippingoption']; //Hidden Shippinh Method Name.
         $shippingOption = ($shippingOption != '' ) ? $shippingOption : null;        
@@ -798,9 +798,7 @@ function update_shopping_cart($CartLines='',$item_qtys='',$promotionCodes=null,$
 		$params = array("arg0"=>APPTIVO_ECOMMERCE_API_KEY,"arg1"=>APPTIVO_ECOMMERCE_ACCESSKEY,"arg2"=>$sessionId,"arg3"=>$shoppingCart,
                     "arg4"=>$clientIPAddress,"arg5"=>'N',"arg6"=>$userId );
 		
-	     
-		
-		$response = ecommerce_soap_call(CART_WSDL,'updateItems',$params);
+	    $response = ecommerce_soap_call(CART_WSDL,'updateItems',$params);
 
 		if( $response == 'E_100')
 		{
@@ -815,9 +813,9 @@ function update_shopping_cart($CartLines='',$item_qtys='',$promotionCodes=null,$
 	    if($sessionId != '')
 		   {
 		   $_SESSION['apptivo_cart_sessionId'] = $sessionId;
+
            //Calculate shipping and tax usin Zipcode.	
-                if($calculateZipcode == 'yes')
-			   {  
+              
 			   	if($zipcode != '')
 				   { 
 				   	$response = estimateShippingAndTaxRate($sessionId,$shipping_method,$zipcode);		//Calculate ratedShipment
@@ -826,17 +824,7 @@ function update_shopping_cart($CartLines='',$item_qtys='',$promotionCodes=null,$
 				   	$response = update_shippingmethods($shipping_method);
 				   	endif;
 				   }
-			   }else
-			   {  
-				   if($zipcode != '')
-				   {
-				   $response = estimateShippingAndTaxRate($sessionId,$shipping_method,$zipcode);		//Calculate ratedShipment
-				   }else{
-				   	if($shipping_method != ''):
-				   	$response = update_shippingmethods($shipping_method);
-				   	endif;
-				   }
-			   }
+			  
 		   }
 	   
 	   //Set Tax Amounts	   
