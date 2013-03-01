@@ -110,7 +110,7 @@ function copy_directory( $source, $destination ) {
 				continue;
 			}
 			copy( $PathDir, $destination . '/' . $readdirectory );
-				
+
 		}
 
 		$directory->close();
@@ -270,7 +270,7 @@ array(
 		array( 'type' => 'sectionend', 'id' => 'general_options'),
 		); // End general settings
 
-		 
+			
 		$products_page_id = get_option('apptivo_ecommerce_products_page_id');
 		$base_slug = ($products_page_id > 0 && get_page( $products_page_id )) ? get_page_uri( $products_page_id ) : 'products';
 
@@ -576,8 +576,6 @@ Insert your address		',
 
 					$product_category = all_product_category();
 
-					
-
 					$categories = app_convertObjectToArray($product_category->subCategories);
 					$apptivo_categorylists = array();
 					for($idx = 0; $idx < count ( $categories ); $idx ++) {
@@ -598,7 +596,7 @@ Insert your address		',
 									if (! empty ( $thirdlevelcategory [$i] )) {
 										array_push($apptivo_categorylists,$thirdlevelcategory [$i]->categoryId);
 									}
-										
+
 									$fourthlevelcategory = app_convertObjectToArray ( $thirdlevelcategory [$i]->subCategories );
 									//echo '========4th Level';
 									if (! empty ( $fourthlevelcategory )) {
@@ -606,7 +604,7 @@ Insert your address		',
 											if (! empty ( $fourthlevelcategory [$j] )) {
 												array_push($apptivo_categorylists,$fourthlevelcategory [$j]->categoryId);
 											}
-												
+
 											$fifthlevelcategory = app_convertObjectToArray ( $fourthlevelcategory [$j]->subCategories );
 											//echo '========5th Level';
 											if (! empty ( $fifthlevelcategory )) {
@@ -618,7 +616,7 @@ Insert your address		',
 													}
 												}
 											}
-												
+
 										}
 									}
 								}
@@ -627,40 +625,40 @@ Insert your address		',
 						}
 					}
 
-					//Get wordpress item category lists.		
-				    $wp_ecommerce_cats = array();
-				    $wpdb->query("
-				        SELECT `post_id`, `meta_value`
-				        FROM $wpdb->postmeta
-				        WHERE `meta_key` = '_apptivo_category_id'
+					//Get wordpress item category lists.
+					$wp_ecommerce_cats = array();
+					$wpdb->query("
+					SELECT `post_id`, `meta_value`
+					FROM $wpdb->postmeta
+					WHERE `meta_key` = '_apptivo_category_id'
 				    ");
-				    foreach($wpdb->last_result as $key => $value){ 
-				    	$wp_ecommerce_cats[$value->post_id] = $value->meta_value;
-				     }
-				    //Compare apptivo categories and wordpress categories.
-				    
-				    $filter_category_arrays = array_diff($wp_ecommerce_cats,$apptivo_categorylists);
+					foreach($wpdb->last_result as $key => $value){
+						$wp_ecommerce_cats[$value->post_id] = $value->meta_value;
+					}
+					//Compare apptivo categories and wordpress categories.
 
-    
-				    
+					$filter_category_arrays = array_diff($wp_ecommerce_cats,$apptivo_categorylists);
+
+
+
 					if($product_category->statusCode != 1005 ) {
 							
 						/*$table_postmeta=$wpdb->prefix.'postmeta';
-						$delete_postmeta = 'delete from '.$table_postmeta.' where meta_key="_apptivo_category_id" ';
-						$result = $wpdb->query($delete_postmeta);*/
+						 $delete_postmeta = 'delete from '.$table_postmeta.' where meta_key="_apptivo_category_id" ';
+						 $result = $wpdb->query($delete_postmeta);*/
 
 						echo '<br />Sync starting...<br />';
 						$categories = app_convertObjectToArray($product_category->subCategories);
 						if(!empty($categories[0])) :
-						
+
 						/*$get_all_terms = get_terms( 'item_cat', 'orderby=count&hide_empty=0' );
-						foreach($get_all_terms as $terms)
-						{
+						 foreach($get_all_terms as $terms)
+						 {
 							wp_delete_term( $terms->term_id, 'item_cat' );
 							delete_post_meta($terms->term_id, '_apptivo_category_id');
 							echo 'Removing the old category Term ID ('.$terms->term_id.')...<br />';
-						}*/
-						
+							}*/
+
 						//Create New Category.
 						for($idx = 0; $idx < count ( $categories ); $idx ++) {
 							//echo '========Fist Level';
@@ -670,6 +668,18 @@ Insert your address		',
 			    $productscategory [$idx] ['categoryId'] = $category->categoryId;
 			    $productscategory [$idx] ['description'] = $category->description;
 			    $product_catid = getIdFromMeta( '_apptivo_category_id', $category->categoryId );
+
+			    //Check terms exist or not
+			    if( $product_catid != '') {
+			    	$terms =  get_term_by('id', $product_catid, 'item_cat');
+			    	if( $terms->term_id != $product_catid )
+			    	{
+			    		//If not exixts remove meta data
+			    		delete_post_meta($product_catid, '_apptivo_category_id');
+			    		$product_catid = '';
+			    	}
+			    }
+
 			    if($product_catid == '')
 			    {
 				    $arg = array('description' => $category->description, 'parent' => 0);
@@ -683,11 +693,11 @@ Insert your address		',
 				    	$term_id = 0;
 				    }
 			    }else {
-			    	
+
 			    	$arg = array('name'=>$category->categoryName,'slug'=>'','description' => $category->description, 'parent' => 0);
 			    	$product_update_catid = apptivo_wp_update_term($product_catid, "item_cat", $arg);
 			    	$term_id = $product_update_catid['term_id'];
-			    	echo 'Synced the Old category "'.$category->categoryName.'" with Term ID "'.$term_id.'"...<br />';			    	
+			    	echo 'Synced the Old category "'.$category->categoryName.'" with Term ID "'.$term_id.'"...<br />';
 			    }
 			    $apptivo_item_category[] = $term_id;
 			    $productscategory [$idx] ['term_id'] = $term_id ;
@@ -702,6 +712,18 @@ Insert your address		',
 			    		$productscategory [$idx] ['subMenu'] [$subidx] ['description'] = $secondlevelcategory [$subidx]->description;
 
 			    		$product_catid = getIdFromMeta( '_apptivo_category_id', $secondlevelcategory [$subidx]->categoryId );
+
+			    		//Check terms exist or not
+			    		if( $product_catid != '') {
+			    			$terms =  get_term_by('id', $product_catid, 'item_cat');
+			    			if( $terms->term_id != $product_catid )
+			    			{
+			    				//If not exixts remove meta data
+			    				delete_post_meta($product_catid, '_apptivo_category_id');
+			    				$product_catid = '';
+			    			}
+			    		}
+
 			    		if($product_catid == '')
 			    		{
 						    $arg = array('description' => $secondlevelcategory [$subidx]->description, 'parent' => $productscategory [$idx] ['subMenu'] [$subidx] ['parent']);
@@ -733,6 +755,17 @@ Insert your address		',
 			    				$productscategory [$idx] ['subMenu'] [$subidx] ['subMenu'] [$i] ['description'] = $thirdlevelcategory [$i]->description;
 
 			    				$product_catid = getIdFromMeta( '_apptivo_category_id', $thirdlevelcategory [$i]->categoryId);
+
+			    				//Check terms exist or not
+			    				if( $product_catid != '') {
+			    					$terms =  get_term_by('id', $product_catid, 'item_cat');
+			    					if( $terms->term_id != $product_catid )
+			    					{
+			    						//If not exixts remove meta data
+			    						delete_post_meta($product_catid, '_apptivo_category_id');
+			    						$product_catid = '';
+			    					}
+			    				}
 			    				if($product_catid == '')
 			    				{
 								    $arg = array('description' => $thirdlevelcategory [$i]->description, 'parent' => $productscategory [$idx] ['subMenu'] [$subidx] ['subMenu'] [$i] ['parent']);
@@ -752,7 +785,7 @@ Insert your address		',
 			    				$apptivo_item_category[] = $term_id;
 			    				$productscategory [$idx] ['subMenu'] [$subidx] ['subMenu'] [$i] ['term_id'] =$term_id;
 			    			}
-			    				
+			    			 
 			    			$fourthlevelcategory = app_convertObjectToArray ( $thirdlevelcategory [$i]->subCategories );
 			    			//echo '========4th Level';
 			    			if (! empty ( $fourthlevelcategory )) {
@@ -764,6 +797,18 @@ Insert your address		',
 			    						$productscategory [$idx] ['subMenu'] [$subidx] ['subMenu'] [$i] ['subMenu'] [$j] ['description']= $fourthlevelcategory [$j]->description;
 
 			    						$product_catid = getIdFromMeta( '_apptivo_category_id', $fourthlevelcategory [$j]->categoryId);
+
+			    						//Check terms exist or not
+			    						if( $product_catid != '') {
+			    							$terms =  get_term_by('id', $product_catid, 'item_cat');
+			    							if( $terms->term_id != $product_catid )
+			    							{
+			    								//If not exixts remove meta data
+			    								delete_post_meta($product_catid, '_apptivo_category_id');
+			    								$product_catid = '';
+			    							}
+			    						}
+
 			    						if($product_catid == '')
 			    						{
 			    							$arg = array('description' => $fourthlevelcategory [$j]->description, 'parent' => $productscategory [$idx] ['subMenu'] [$subidx] ['subMenu'] [$i] ['subMenu'] [$j] ['parent']);
@@ -783,7 +828,7 @@ Insert your address		',
 			    						$apptivo_item_category[] = $term_id;
 			    						$productscategory [$idx] ['subMenu'] [$subidx] ['subMenu'] [$i] ['subMenu'] [$j] ['term_id'] =$term_id;
 			    					}
-			    						
+			    					 
 			    					$fifthlevelcategory = app_convertObjectToArray ( $fourthlevelcategory [$j]->subCategories );
 			    					//echo '========5th Level';
 			    					if (! empty ( $fifthlevelcategory )) {
@@ -794,8 +839,20 @@ Insert your address		',
 			    								$productscategory [$idx] ['subMenu'] [$subidx] ['subMenu'] [$i] ['subMenu'] [$j] ['subMenu'] [$k] ['categoryId']= $fifthlevelcategory [$k]->categoryId;
 			    								$productscategory [$idx] ['subMenu'] [$subidx] ['subMenu'] [$i] ['subMenu'] [$j] ['subMenu'] [$k] ['description']= $fifthlevelcategory [$k]->description;
 
-			    									
+
 			    								$product_catid = getIdFromMeta( '_apptivo_category_id', $fifthlevelcategory [$k]->categoryId);
+
+			    								//Check terms exist or not
+			    								if( $product_catid != '') {
+			    									$terms =  get_term_by('id', $product_catid, 'item_cat');
+			    									if( $terms->term_id != $product_catid )
+			    									{
+			    										//If not exixts remove meta data
+			    										delete_post_meta($product_catid, '_apptivo_category_id');
+			    										$product_catid = '';
+			    									}
+			    								}
+
 			    								if($product_catid == '')
 			    								{
 			    									$arg = array('description' => $fifthlevelcategory [$k]->description, 'parent' => $productscategory [$idx] ['subMenu'] [$subidx] ['subMenu'] [$i] ['subMenu'] [$j] ['subMenu'] [$k] ['parent']);
@@ -818,7 +875,7 @@ Insert your address		',
 			    							}
 			    						}
 			    					}
-			    						
+			    					 
 			    				}
 			    			}
 			    		}
@@ -829,17 +886,17 @@ Insert your address		',
 						echo 'Fetched' .count($apptivo_item_category).' categories'.'<br />';
 						echo 'Categories updated successfully. <br /><br /><br />';
 						endif; //Category Checking...
-						
+
 						//Removing filtered Categories
-					   if( count($filter_category_arrays) != 0 ) {	
-					   foreach ($filter_category_arrays as $filtered_term_id => $value) {
- 						    wp_delete_term( $filtered_term_id, 'item_cat' );
-							delete_post_meta($filtered_term_id, '_apptivo_category_id');
-							echo 'Removing the old category Term ID ('.$filtered_term_id.')...<br />';
-					    }
-					   }
+						if( count($filter_category_arrays) != 0 ) {
+							foreach ($filter_category_arrays as $filtered_term_id => $value) {
+								wp_delete_term( $filtered_term_id, 'item_cat' );
+								delete_post_meta($filtered_term_id, '_apptivo_category_id');
+								echo 'Removing the old category Term ID ('.$filtered_term_id.')...<br />';
+							}
+						}
 						//Removed filtered categories
-						
+
 						/**************************************** Create Category End **********************/
 						/**********************************  Item creation Start ********************************************/
 						list($item_lists,$total_items_in_apptivo) = getAllItemsForSync();
@@ -847,11 +904,11 @@ Insert your address		',
 						$new_items = 0;
 						$old_items = 0;
 						//echo "Total No.of Items".$total_items_in_apptivo.'<br />';
-						
-						
+
+
 						$apptivo_item_lists = array();
 						foreach($item_lists as $items_details) :
-						array_push($apptivo_item_lists,$items_details->itemId);	
+						array_push($apptivo_item_lists,$items_details->itemId);
 						$product_postid = getIdFromMeta( '_apptivo_item_id', $items_details->itemId );
 						//For Newly Items From Apptivo.
 						if($items_details->itemId != '')
@@ -865,12 +922,12 @@ Insert your address		',
 								if( $categoryID != '')
 								{
 									$product_catid = getIdFromMeta( '_apptivo_category_id', $categoryID );
-										
+
 									if($product_catid != '') {
 	    					$item_categoryID[] = $product_catid; }
 								}
 							}
-							 
+
 							if ( $product_postid == '' ){
 								$new_post = array(
 					    'post_title' => $items_details->itemName,
@@ -908,7 +965,7 @@ Insert your address		',
 								$old_items++;
 
 				   }
-				   	
+
 				   if($post_id){
 				   	update_post_meta($post_id, '_apptivo_item_code', $items_details->itemCode);
 				   	update_post_meta($post_id, '_apptivo_item_id', $items_details->itemId);
@@ -924,46 +981,46 @@ Insert your address		',
 				   	$apptivo_featured = ($items_details->featured)?'yes':'no';
 				   	update_post_meta( $post_id, '_apptivo_featured', $apptivo_featured );
 				   }
-				   	
+
 						}
-                         
+							
 						endforeach;
-						
-					
-                    //Wordpress items lists
-					$wpdb->query("
-				        SELECT `post_id`, `meta_value`
-				        FROM $wpdb->postmeta
-				        WHERE `meta_key` = '_apptivo_item_id'
+
+							
+						//Wordpress items lists
+						$wpdb->query("
+						SELECT `post_id`, `meta_value`
+						FROM $wpdb->postmeta
+						WHERE `meta_key` = '_apptivo_item_id'
 				    ");
-				    foreach($wpdb->last_result as $key => $value){ 
-				    	$wp_ecommerce_items[$value->post_id] = $value->meta_value;
-				     }
-				     
-				     $filter_items_arrays = array_diff($wp_ecommerce_items,$apptivo_item_lists);
-				     
-				      //Removing items from wordpress
-					   if( count($filter_items_arrays) != 0 ) {	
-					   foreach ($filter_items_arrays as $filtered_post_id => $value) {
-					   	    wp_delete_post( $filtered_post_id, 1 );
- 						    
-					   	    delete_post_meta($filtered_post_id, '_apptivo_item_code');
- 						    delete_post_meta($filtered_post_id, '_apptivo_item_id'); 						    
- 						    delete_post_meta($filtered_post_id, '_apptivo_item_uom_id');
- 						    delete_post_meta($filtered_post_id, '_apptivo_item_manufactured_id');
- 						    delete_post_meta($filtered_post_id, '_apptivo_regular_price');
- 						    delete_post_meta($filtered_post_id, '_apptivo_supplier'); 						    
- 						    delete_post_meta($filtered_post_id, '_apptivo_sale_price');
- 						    delete_post_meta($filtered_post_id, '_apptivo_track_color');
- 						    delete_post_meta($filtered_post_id, '_apptivo_track_size');
- 						    delete_post_meta($filtered_post_id, '_apptivo_enabled');
- 						    delete_post_meta($filtered_post_id, '_apptivo_featured');
- 						    
-							echo 'Removing the old Item ID ('.$filtered_post_id.')...<br />';
-					    }
-					   }
+						foreach($wpdb->last_result as $key => $value){
+							$wp_ecommerce_items[$value->post_id] = $value->meta_value;
+						}
+							
+						$filter_items_arrays = array_diff($wp_ecommerce_items,$apptivo_item_lists);
+							
+						//Removing items from wordpress
+						if( count($filter_items_arrays) != 0 ) {
+							foreach ($filter_items_arrays as $filtered_post_id => $value) {
+								wp_delete_post( $filtered_post_id, 1 );
+									
+								delete_post_meta($filtered_post_id, '_apptivo_item_code');
+								delete_post_meta($filtered_post_id, '_apptivo_item_id');
+								delete_post_meta($filtered_post_id, '_apptivo_item_uom_id');
+								delete_post_meta($filtered_post_id, '_apptivo_item_manufactured_id');
+								delete_post_meta($filtered_post_id, '_apptivo_regular_price');
+								delete_post_meta($filtered_post_id, '_apptivo_supplier');
+								delete_post_meta($filtered_post_id, '_apptivo_sale_price');
+								delete_post_meta($filtered_post_id, '_apptivo_track_color');
+								delete_post_meta($filtered_post_id, '_apptivo_track_size');
+								delete_post_meta($filtered_post_id, '_apptivo_enabled');
+								delete_post_meta($filtered_post_id, '_apptivo_featured');
+									
+								echo 'Removing the old Item ID ('.$filtered_post_id.')...<br />';
+							}
+						}
 						//Removed Items
-				    
+
 						if ( count($apptivo_item_category) == 0)
 						{
 							echo '<br /> No categories found...<br /> ';
@@ -1038,7 +1095,7 @@ Insert your address		',
 				global $apptivo_ecommerce, $apptivo_ecommerce_settings;
 
 				$current_tab = (isset($_GET['page'])) ? $_GET['page'] : 'apptivo_ecommerce';
-				 
+					
 				if( isset( $_POST ) && $_POST ) :
 				if($current_tab == 'apptivo_ecommerce'  )
 				{
@@ -1302,5 +1359,5 @@ default :
 		});
 		</script></div>
 <?php
-}
-}
+			}
+		}

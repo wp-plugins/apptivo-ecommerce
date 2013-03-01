@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Apptivo eCommerce
-Plugin URI: http://www.apptivo.com
+Plugin URI: https://www.apptivo.com
 Description: Turn your Wordpress blog into a complete integrated eCommerce solution.  Easily add products, integrate your payment gateway, and start collecting orders.  Get started by signing up for an Apptivo account to get your API key!
-Version: 1.1
+Version: 1.1.1
 Author: Rajkumar Mohanasundaram
-Author URI: http://www.apptivo.com
+Author URI: https://www.apptivo.com
 Requires at least: 3.1
 */
 if (!session_id()) session_start();
@@ -13,7 +13,7 @@ if (!session_id()) session_start();
  * Constants
  **/ 
 if (!defined('APPTIVO_ECOMMERCE_TEMPLATE_URL')) define('APPTIVO_ECOMMERCE_TEMPLATE_URL', 'apptivo-ecommerce/');
-if (!defined("APPTIVO_ECOMMERCE_VERSION")) define("APPTIVO_ECOMMERCE_VERSION", "1.1");	
+if (!defined("APPTIVO_ECOMMERCE_VERSION")) define("APPTIVO_ECOMMERCE_VERSION", "1.1.1");	
 if (!defined("PHP_EOL")) define("PHP_EOL", "\r\n");
 if (!defined('APPTIVO_ECOMMERCE_PLUGIN_BASEURL')) define('APPTIVO_ECOMMERCE_PLUGIN_BASEURL',plugins_url(basename( dirname(__FILE__))));
 if (!defined('APPTIVO_ECOMMERCE_PLUGIN_BASEPATH')) define('APPTIVO_ECOMMERCE_PLUGIN_BASEPATH',dirname(__FILE__));
