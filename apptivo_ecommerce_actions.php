@@ -339,9 +339,9 @@ function apptivo_ecommerce_process_login() {
 		
 		if ( !isset($_POST['username']) || empty($_POST['username']) )
 		{
-			$apptivo_ecommerce->add_error( __('Username is required.', 'apptivo-ecommerce'),'username' );
+			$apptivo_ecommerce->add_error( __('Email Address is required.', 'apptivo-ecommerce'),'username' );
 		}else{
-			if ( !is_email(trim($_POST['username'])) ) $apptivo_ecommerce->add_error( __('Invalid Username', 'apptivo-ecommerce'),'username' );
+			if ( !is_email(trim($_POST['username'])) ) $apptivo_ecommerce->add_error( __('Invalid Email Address', 'apptivo-ecommerce'),'username' );
 		}
 		if ( !isset($_POST['password']) || empty($_POST['password']) ) $apptivo_ecommerce->add_error( __('Password is required.', 'apptivo-ecommerce'),'password' );
 		

@@ -17,6 +17,9 @@ if (!function_exists('apptivo_ecommerce_output_content_wrapper')) {
 		if ( get_option('template') === 'twentytwelve' ) :
 			echo '<div class="site-content" id="primary">';
 		endif;
+		if ( get_option('template') === 'twentythirteen' ) :
+			echo '<div class="content-area" id="primary"><div class="entry-content">';
+		endif;
 		
 	}
 }
@@ -33,6 +36,9 @@ if (!function_exists('apptivo_ecommerce_output_content_wrapper_end')) {
 		
 		if ( get_option('template') === 'twentytwelve' ) :
 			echo  '</div>';
+		endif;
+		if ( get_option('template') === 'twentythirteen' ) :
+			echo  '</div></div>';
 		endif;
 		
 	}

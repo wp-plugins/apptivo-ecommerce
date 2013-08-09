@@ -86,7 +86,8 @@ td.product-name dl.variation{margin:0;}td.product-name dl.variation dt{font-weig
 td.product-name dl.variation dd{display:inline;margin:0 12px 0 0;padding:0;}
 td.quantity{min-width:80px;}
 .quantity input{margin-left:0;margin-right:0;}
-.quantity input.itemqty,input.itemqty{border:1px solid #ccc;width:20px;display:inline;padding:1px 5px 2px;line-height:1em;vertical-align:middle;margin:0;text-align:center;}
+.quantity input.itemqty,input.itemqty{border:1px solid #ccc;width:20px;display:inline;padding:1px 0px 2px;line-height:1em;vertical-align:middle;margin:0;text-align:center;}
+.content-area #content #breadcrumb {padding-top: 20px !important;}
 .cart input{margin:0;vertical-align:middle;line-height:1em;}
 .col2-set{overflow:hidden;zoom:1;width:100%;}.col2-set .col-1{float:left;width:48%;}
 .col2-set .col-2{float:right;width:48%;}

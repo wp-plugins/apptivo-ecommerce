@@ -1,9 +1,9 @@
 === Apptivo eCommerce ===
-Contributors: apptivo, rmohanasundaram
+Contributors: apptivo, rmohanasundaram, prabhuganapathy
 Tags: apptivo, ecommerce, e-commerce, integration, paypal, registration
 Requires at least: 3.0
-Tested up to: 3.5.1
-Stable tag: 1.1.1
+Tested up to: 3.6
+Stable tag: 1.1.2
 
 Create, display, and collect payment for your products online.  A complete eCommerce solution integrated with Apptivo.
 
@@ -53,6 +53,11 @@ You can find the complete developer's guide here: http://www.apptivo.com/ecommer
 
 
 == Changelog ==
+
+= 1.1.2 =
+* Removed un supported JS error message and waring messages. 
+* Updated validation messages and cart page quantity input box css updates.
+* Products template page support for Twenty Thirteen theme.
 
 = 1.1.1 =
 * Fixes: Issue when sync with Apptivo for huge Products and Categories.

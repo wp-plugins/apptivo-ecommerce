@@ -952,12 +952,12 @@ $('form.confirm').submit(function(){
  * Dual licensed under the MIT and GPL licenses:
  */
 ;(function($) {
-
+/*
 if (/1\.(0|1|2)\.(0|1|2)/.test($.fn.jquery) || /^1.1/.test($.fn.jquery)) {
 	alert('blockUI requires jQuery v1.2.3 or later!  You are using v' + $.fn.jquery);
 	return;
 }
-
+*/
 $.fn._fadeIn = $.fn.fadeIn;
 
 var noOp = function() {};

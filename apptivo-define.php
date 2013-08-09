@@ -1091,7 +1091,7 @@ function app_convertObjectToArray($objectValue)
  */
 function getIdFromMeta( $meta_key, $meta_value ) {
     global $wpdb;
-    $pid = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_value = '$meta_value' AND meta_key = '$meta_key' ORDER BY post_id DESC") );
+    $pid = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_value = %d AND meta_key = '$meta_key' ORDER BY post_id DESC",$meta_value) );
     if( $pid != '' )
         return $pid;
     else 

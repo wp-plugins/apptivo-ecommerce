@@ -384,7 +384,7 @@ class apptivo_ecommerce_checkout {
 						<option value="">'.__('Select a country&hellip;', 'apptivo_ecommerce').'</option>';
 				
 				foreach($apptivo_ecommerce->countries->get_countries() as $country) :
-				    $selected_value = ($this->get_checkout_postvalue($key) == '')?'US':$this->get_reg_postvalue($key);
+				    $selected_value = ($this->get_checkout_postvalue($key) == '')?'US':$this->get_checkout_postvalue($key);
 					$field .= '<option value="'.$country->countryCode.'" '.selected($selected_value, $country->countryCode, false).'>'.__($country->countryName, 'apptivo_ecommerce').'</option>';
 				endforeach;
 				
