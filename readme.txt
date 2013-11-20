@@ -3,7 +3,7 @@ Contributors: apptivo, rmohanasundaram, prabhuganapathy
 Tags: apptivo, ecommerce, e-commerce, integration, paypal, registration
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 
 Create, display, and collect payment for your products online.  A complete eCommerce solution integrated with Apptivo.
 
@@ -53,6 +53,9 @@ You can find the complete developer's guide here: http://www.apptivo.com/ecommer
 
 
 == Changelog ==
+
+= 1.1.3 =
+* Removed Google Checkout Payment option.
 
 = 1.1.2 =
 * Removed un supported JS error message and waring messages. 

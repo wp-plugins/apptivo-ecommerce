@@ -40,13 +40,15 @@ class apptivo_ecommerce_googlecheckout extends apptivo_ecommerce_payment_gateway
 					);
     
     } 
-	public function admin_options() {
+    public function admin_options() {
+        /*
     	?>
     	<h3><?php _e('Google Checkout', 'apptivo_ecommerce'); ?></h3>
     	<table class="form-table">
     	<?php $this->generate_settings_html(); ?>
 		</table>
     	<?php
+         */
     } 
     function payment_fields() {
     	
@@ -123,4 +125,4 @@ function apptivo_ecommerce_googlecheckout_gateway( $methods ) {
 	$methods[] = 'apptivo_ecommerce_googlecheckout';
 	return $methods;
 }
-add_filter('apptivo_ecommerce_payment_gateways', 'apptivo_ecommerce_googlecheckout_gateway' );
+// add_filter('apptivo_ecommerce_payment_gateways', 'apptivo_ecommerce_googlecheckout_gateway' );
