@@ -33,7 +33,6 @@ function apptivo_ecommerce_post_type() {
             'label' => __( 'Categories', 'apptivo-ecommerce'),
             'labels' => $labels ,
             'show_ui' => true,
-            'show_in_menu' =>false,
             'query_var' => true,
             'hierarchical' =>true,
             'rewrite' 	   => true,
