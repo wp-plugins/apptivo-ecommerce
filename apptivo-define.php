@@ -1600,7 +1600,12 @@ function ecommerce_soap_call($wsdl,$webmethod,$params)
 	$webmethod = trim($webmethod);
 	$wsdl = trim($wsdl); 
 	try{
-    $client = new SoapClient($wsdl);
+
+	$context = stream_context_create(array(
+               'ssl'=>array( 'ciphers' => '3DES' )               
+        ));
+	$client = new SoapClient($wsdl, array('stream_context' => $context));
+
     }catch(Exception $e){
     	return 'E_100';   //Invalid Wsdl
     }

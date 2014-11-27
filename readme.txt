@@ -2,8 +2,8 @@
 Contributors: apptivo, rmohanasundaram, prabhuganapathy
 Tags: apptivo, ecommerce, e-commerce, integration, paypal, registration
 Requires at least: 3.0
-Tested up to: 4.0
-Stable tag: 1.1.4
+Tested up to: 4.0.1
+Stable tag: 1.1.5
 
 Create, display, and collect payment for your products online.  A complete eCommerce solution integrated with Apptivo.
 
@@ -53,6 +53,10 @@ You can find the complete developer's guide here: http://www.apptivo.com/ecommer
 
 
 == Changelog ==
+
+= 1.1.5 =
+* Disabled SSLv3 Support.
+* API connection error with PHP Soap Client
 
 = 1.1.4 =
 * Product categories menu display issue fixed.
