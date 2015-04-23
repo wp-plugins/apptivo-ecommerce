@@ -2,7 +2,7 @@
 Contributors: apptivo, rmohanasundaram, prabhuganapathy
 Tags: apptivo, ecommerce, e-commerce, integration, paypal, registration
 Requires at least: 3.0
-Tested up to: 4.1
+Tested up to: 4.2
 Stable tag: 1.1.5
 
 Create, display, and collect payment for your products online.  A complete eCommerce solution integrated with Apptivo.
